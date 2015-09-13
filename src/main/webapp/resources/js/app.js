@@ -1,15 +1,38 @@
 angular
     .module('myApp', ['ngResource'])
-    .service('UsersService', function ($log, $resource) {
+    .service('TestCaseService', function ($log, $http) {
         return {
             getAll: function () {
-                var userResource = $resource('users', {}, {
-                    query: {method: 'GET', params: {}, isArray: true}
-                });
-                return userResource.query();
+               return  $http.get('resources/stub/test-cases.json')
             }
         }
     })
-    .controller('UsersController', function ($scope, $log, UsersService) {
-        $scope.users = UsersService.getAll();
+    .service('ExecService', function ($log, $http) {
+            return {
+                execTest: function (tcIdList) {
+                   return  $http.get('/execTest?tcId=' + tcIdList)
+                }
+            }
+        })
+    .controller('TestCaseController', function ($scope, $log, TestCaseService,ExecService) {
+
+        TestCaseService.getAll().then(function(res){
+            $scope.testCases =  res.data;
+        });
+
+        $scope.submitTestCases = function() {
+            var selectedDefinitions = $scope.testCases.filter(function(def) {
+
+              return def.checked;
+            });
+            console.log(selectedDefinitions);
+            var tcIdList = "";
+            for(var i = 0; i<selectedDefinitions.length;i++){
+               tcIdList += "," + selectedDefinitions[i].tcId;
+            }
+            ExecService.execTest(tcIdList);
+
+            //$http.get('/execTest?')
+            //console.log(selectedDefinitions);
+        };
     });
