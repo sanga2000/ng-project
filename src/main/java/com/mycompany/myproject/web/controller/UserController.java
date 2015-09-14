@@ -2,6 +2,7 @@ package com.mycompany.myproject.web.controller;
 
 import com.mycompany.myproject.service.UserService;
 import com.mycompany.myproject.service.dto.UserDto;
+import org.apache.commons.exec.*;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,7 +32,8 @@ public class UserController {
     @Autowired
     private MessageSource ms;
 
-
+    int iExitValue;
+    String sCommandString;
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public @ResponseBody List<UserDto> usersList() {
         logger.debug("get json user list");
@@ -39,18 +42,34 @@ public class UserController {
 
     @RequestMapping(value = "/execTest", method = RequestMethod.GET)
     public @ResponseBody void executeTestCase(@RequestParam("tcId") String tcId, @RequestParam ("testBed") String testBed) {
-        logger.debug("INSIDE EXECUTE CASES******************" +tcId );
-        System.out.println(("INSIDE EXECUTE CASES******************" +tcId ));
+
         tcId = StringUtils.replace(tcId, ",", " ");
-        ProcessBuilder pb = new ProcessBuilder("tc-script.sh", tcId, testBed);
-        try {
-            Process p = pb.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        runScript("sh tc-script.sh");
+
         //return userService.findAll();
     }
 
+    public void runScript(String command){
+        sCommandString = command;
+        CommandLine oCmdLine = CommandLine.parse(sCommandString);
+        DefaultExecutor oDefaultExecutor = new DefaultExecutor();
+        // oDefaultExecutor.setWorkingDirectory(new File(command.getWorkingDir()).getAbsoluteFile());
+        // oDefaultExecutor.setExitValue(1);
+        try {
+
+            System.out.println(System.getProperty("user.dir") + "********");
+            oDefaultExecutor.setWorkingDirectory(new File(System.getProperty("user.dir") + "/src"));
+            iExitValue = oDefaultExecutor.execute(oCmdLine);
+        } catch (ExecuteException e) {
+            // TODO Auto-generated catch block
+            System.err.println("Execution failed.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            System.err.println("permission denied.");
+            e.printStackTrace();
+        }
+    }
 
 }
 
