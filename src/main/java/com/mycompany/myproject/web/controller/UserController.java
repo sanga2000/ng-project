@@ -2,6 +2,7 @@ package com.mycompany.myproject.web.controller;
 
 import com.mycompany.myproject.service.UserService;
 import com.mycompany.myproject.service.dto.UserDto;
+import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/execTest", method = RequestMethod.GET)
-    public @ResponseBody void executeTestCase(@RequestParam("tcId") String tcId) {
+    public @ResponseBody void executeTestCase(@RequestParam("tcId") String tcId, @RequestParam ("testBed") String testBed) {
         logger.debug("INSIDE EXECUTE CASES******************" +tcId );
         System.out.println(("INSIDE EXECUTE CASES******************" +tcId ));
-        ProcessBuilder pb = new ProcessBuilder("tc-script.sh", "myArg1", "myArg2");
+        tcId = StringUtils.replace(tcId, ",", " ");
+        ProcessBuilder pb = new ProcessBuilder("tc-script.sh", tcId, testBed);
         try {
             Process p = pb.start();
         } catch (IOException e) {

@@ -1,0 +1,9 @@
+[
+    { "id" : "voip1", "testBed": "Voice Over IP1"},
+    { "id" : "dc1","testBed": "Data Center 1"},
+    { "id" : "dc2","testBed": "Data Center 2"},
+    { "id" : "sc1","testBed": "Secure Enterprise 1"},
+    { "id" : "sc2","testBed": "Secure Enterprise 2"},
+    { "id" : "voip2","testBed": "Voice Over IP2"},
+    { "id" : "sanity","testBed": "Sanity"}
+ ]

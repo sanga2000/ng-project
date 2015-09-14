@@ -4,13 +4,29 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="webjars/bootstrap/3.2.0/css/bootstrap.css">
         <link rel="stylesheet" href="webjars/bootstrap-material-design/0.2.1/css/material.css">
+        <link rel="stylesheet" href="resources/css/app.css">
         <title></title>
     </head>
     <body ng-controller="TestCaseController">
-        <div class="row">
+
+        <div class="title">
+            <img src="resources/images/smoke-sanity.jpg" />
+        </div>
+        <div class="frame">
             <br>
-            <div class="container">
-                <div id="userList" class="col-sm-offset-1 col-sm-10">
+            <div class="navigation">
+                <font color = "#000000"><b>Menu</b></font>
+                <br/>
+                Log
+                <br/>
+                Results
+                <br/>
+                Schedule
+                <br/>
+                Add Test Bed
+            </div>
+            <div class="mycontainer">
+                <div>
                     <div class="input-group">
                         <input class="form-control" id="search" name="search" placeholder="Search for" ng-model="query"
                                required="required"/>
@@ -20,18 +36,30 @@
                   </button>
               </span>
                     </div>
+
                     <div class="list-group">
+
                         <div class="list-group-item">
+                            <div style="margin-left: 17px;">
+                                <input type='checkbox' ng-model="selectedAll" ng-click="checkAll()" /> <b font-family = "arial">Select All </b>
+
+                            </div>
                             <div ng-repeat="testCase in testCases | filter : query" class="list-group-item" style="margin-top:16px">
                                 <input type='checkbox' ng-model='testCase.checked'>
-                                <div class="row-content">
-                                    <h4 class="list-group-item-heading">{{testCase.tcId}} {{testCase.desc}}</h4>
+                                <div ng-class-odd="'odd'" ng-class-even="'even'" class="list-style">
+                                    {{testCase.tcId}} {{testCase.desc}}
 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <input type='submit' ng-click="submitTestCases()" value="Run Test">
+                    <div  style="margin-left: 31px;">
+                        <select ng-model="selectedTestBed" ng-options="i.testBed for i in testBeds track by i.id">
+                            <option value="">Select Test Bed</option>
+                        </select>
+                        <button class="blue" ng-click="submitTestCases()" >Run Test</button>
+                    </div>
+
 
                 </div>
             </div>
