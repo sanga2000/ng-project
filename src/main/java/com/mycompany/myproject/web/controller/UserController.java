@@ -57,8 +57,7 @@ public class UserController {
         // oDefaultExecutor.setExitValue(1);
         try {
 
-            System.out.println(System.getProperty("user.dir") + "********");
-            oDefaultExecutor.setWorkingDirectory(new File(System.getProperty("user.dir") + "/src"));
+            oDefaultExecutor.setWorkingDirectory(new File("/Users/212433329/bharshell"));
             iExitValue = oDefaultExecutor.execute(oCmdLine);
         } catch (ExecuteException e) {
             // TODO Auto-generated catch block

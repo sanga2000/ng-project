@@ -18,8 +18,7 @@ public class TestScript {
        // oDefaultExecutor.setWorkingDirectory(new File(command.getWorkingDir()).getAbsoluteFile());
        // oDefaultExecutor.setExitValue(1);
         try {
-        	System.out.println(oDefaultExecutor.getWorkingDirectory().getAbsolutePath());
-        	oDefaultExecutor.setWorkingDirectory(oDefaultExecutor.getWorkingDirectory());
+            oDefaultExecutor.setWorkingDirectory(new File("/Users/212433329/bharshell"));
             iExitValue = oDefaultExecutor.execute(oCmdLine);
         } catch (ExecuteException e) {
             // TODO Auto-generated catch block
@@ -32,8 +31,27 @@ public class TestScript {
         }
     }
 
+    public void runfromCmd ()  {
+        String [] commandline = new String[3];
+        commandline[0] = "bash";
+        commandline[1] = "-c";
+        commandline[2] = "sh /Users/212433329 tc-script.sh";
+        Process p = null;
+        try {
+            p = Runtime.getRuntime().exec(commandline);
+            p.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception t) {
+            t.printStackTrace();
+        }
+
+
+    }
+
     public static void main(String args[]){
         TestScript testScript = new TestScript();
-        testScript.runScript("sh sample-script.sh");
+        testScript.runScript("sh tc-script.sh");
+       // testScript.runfromCmd();
     }
 }
