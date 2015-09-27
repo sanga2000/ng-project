@@ -14,6 +14,9 @@ public class TestScript {
     public void runScript(String command){
         sCommandString = command;
         CommandLine oCmdLine = CommandLine.parse(sCommandString);
+
+        oCmdLine.addArgument("sanga.txt");
+
         DefaultExecutor oDefaultExecutor = new DefaultExecutor();
        // oDefaultExecutor.setWorkingDirectory(new File(command.getWorkingDir()).getAbsoluteFile());
        // oDefaultExecutor.setExitValue(1);
@@ -49,8 +52,18 @@ public class TestScript {
 
     }
 
+    public void runCmdPrBld() {
+        String[] cmd = { "bash", "-c", " /Users/212433329/tc-script.sh" };
+        try {
+            Process p = Runtime.getRuntime().exec(cmd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String args[]){
         TestScript testScript = new TestScript();
+        //testScript.runCmdPrBld();
         testScript.runScript("sh tc-script.sh");
        // testScript.runfromCmd();
     }

@@ -43,18 +43,22 @@ public class UserController {
     @RequestMapping(value = "/execTest", method = RequestMethod.GET)
     public @ResponseBody void executeTestCase(@RequestParam("tcId") String tcId, @RequestParam ("testBed") String testBed) {
 
-        tcId = StringUtils.replace(tcId, ",", " ");
-        runScript("sh tc-script.sh");
+       String [] tcIdArr =StringUtils.split(StringUtils.removeEnd(tcId, ","), ",");
+
+        runScript("sh tc-script.sh", tcIdArr, testBed);
 
         //return userService.findAll();
     }
 
-    public void runScript(String command){
+    public void runScript(String command, String[] tcIdArr, String testBed){
         sCommandString = command;
         CommandLine oCmdLine = CommandLine.parse(sCommandString);
+        for (String tcId : tcIdArr ) {
+            oCmdLine.addArgument(tcId);
+        }
+        oCmdLine.addArgument(testBed);
         DefaultExecutor oDefaultExecutor = new DefaultExecutor();
-        // oDefaultExecutor.setWorkingDirectory(new File(command.getWorkingDir()).getAbsoluteFile());
-        // oDefaultExecutor.setExitValue(1);
+
         try {
 
             oDefaultExecutor.setWorkingDirectory(new File("/Users/212433329/bharshell"));
