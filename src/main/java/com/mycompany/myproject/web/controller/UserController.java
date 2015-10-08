@@ -53,12 +53,12 @@ public class UserController {
     public void runScript(String command, String[] tcIdArr, String testBed){
         sCommandString = command;
         CommandLine oCmdLine = CommandLine.parse(sCommandString);
-        if (tcIdArr != null && testBed != null) {
+      /*  if (tcIdArr != null && testBed != null) {
             for (String tcId : tcIdArr ) {
                 oCmdLine.addArgument(tcId);
             }
             oCmdLine.addArgument(testBed);
-        }
+        }*/
         DefaultExecutor oDefaultExecutor = new DefaultExecutor();
 
         try {
